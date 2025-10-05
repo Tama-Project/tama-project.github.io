@@ -3,450 +3,339 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Untuk Bintangku</title>
-    
+    <title>buat dedek maniess</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --color-space-dark: #00000a;
-            --color-space-light: #10102a;
-            --color-nebula-violet: #4a0e69;
-            --color-nebula-pink: #d94a9a;
-            --color-star: #ffffff;
-            --color-star-glow: #f0f8ff;
-            --color-gold: #ffd700;
-            --font-serif-display: 'Cinzel', serif;
-            --font-sans-body: 'Montserrat', sans-serif;
+            /* Palet Warna Baru: Senja yang Hangat & Romantis */
+            --bg-grad-1: #23153C; /* Ungu Gelap */
+            --bg-grad-2: #44234C;
+            --bg-grad-3: #943A58; /* Magenta Hangat */
+            --text-color: #F5F5F5;
+            --accent-color: #FFD700; /* Emas sebagai aksen */
+            --button-bg: rgba(255, 255, 255, 0.1);
+            --button-hover-bg: rgba(255, 255, 255, 0.2);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            background-color: var(--color-space-dark);
-            color: var(--color-star);
-            font-family: var(--font-sans-body);
-            cursor: none;
+            /* Background Gradient Animasi yang Halus */
+            background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3));
+            background-size: 400% 400%;
+            animation: gradient-flow 15s ease infinite;
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
         }
 
-        /* --- STYLING KOSMIK --- */
-        #universe {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        #starfield {
-            background-image: radial-gradient(ellipse at center, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 60%);
-            background-size: 1px 1px;
-            animation: pulse 10s infinite;
+        .container {
+            max-width: 90%;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
-        #nebula {
-            position: absolute;
-            width: 150vw;
-            height: 150vh;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle, var(--color-nebula-pink) 0%, var(--color-nebula-violet) 30%, transparent 60%);
+        /* --- Tahap 1: Amplop --- */
+        #initial-screen {
+            cursor: pointer;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        #initial-screen.hidden {
             opacity: 0;
-            filter: blur(100px);
-            transition: opacity 5s ease-in-out;
-        }
-
-        @keyframes pulse {
-            50% { opacity: 0.5; }
-        }
-
-        /* --- KURSOR KUSTOM --- */
-        .cursor {
-            position: fixed;
+            transform: scale(0.8);
             pointer-events: none;
-            z-index: 9999;
-            border-radius: 50%;
         }
-        #cursor-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--color-gold);
-            transform: translate(-50%, -50%);
+        .envelope {
+            font-size: 100px;
+            animation: float 3s ease-in-out infinite;
+            text-shadow: 0 0 15px rgba(255,215,0,0.5);
         }
-        #cursor-aura {
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(255, 215, 0, 0.5);
-            transform: translate(-50%, -50%);
-            transition: transform 0.2s ease-out, background-color 0.2s ease;
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
-        body.cursor-active #cursor-aura {
-            transform: translate(-50%, -50%) scale(1.5);
-            background-color: rgba(255, 215, 0, 0.1);
+        .typing-text {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            min-height: 80px;
+            max-width: 500px;
+        }
+        .typing-text span {
+            border-right: .15em solid var(--accent-color);
+            animation: blink-caret .75s step-end infinite;
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent-color); }
         }
 
-        /* --- SCENES --- */
-        .scene {
+        /* --- Tahap 2: Pesan Utama --- */
+        #message-screen {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 1.5s ease;
+            transform: scale(1.1);
+            transition: opacity 0.7s ease-in, transform 0.7s ease-in;
         }
-        .scene.active {
+        #message-screen.visible {
             opacity: 1;
+            transform: scale(1);
             pointer-events: all;
         }
 
-        /* --- SCENE 1: PROLOG --- */
-        #scene-prologue h1 {
-            font-family: var(--font-serif-display);
-            font-size: 2.5rem;
-            letter-spacing: 5px;
-            font-weight: 400;
+        .heart-zoom {
+            position: fixed; top: 50%; left: 50%;
+            font-size: 1px;
+            transform: translate(-50%, -50%);
+            animation: zoom-in-out 1.5s ease-in-out forwards;
+            opacity: 0;
+            text-shadow: 0 0 20px red;
         }
-        #scene-prologue p {
-            font-size: 1rem;
-            margin-top: 20px;
-            color: rgba(255,255,255,0.7);
-        }
-
-        /* --- SCENE 2: KONSTELASI --- */
-        #constellation-canvas {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-        .star {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: var(--color-star);
-            border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            box-shadow: 0 0 10px 2px var(--color-star-glow), 0 0 40px 10px var(--color-nebula-pink);
-            filter: blur(2px);
-            transition: transform 0.3s ease;
-            cursor: none;
-        }
-        .star.active-target {
-            animation: star-pulse 2s infinite;
-        }
-        .star.connected {
-            background-color: var(--color-gold);
-            box-shadow: 0 0 15px 5px var(--color-gold), 0 0 60px 20px var(--color-nebula-violet);
-        }
-        .constellation-line {
-            position: absolute;
-            height: 2px;
-            background: linear-gradient(90deg, rgba(255,215,0,0), rgba(255,215,0,0.8));
-            transform-origin: left center;
-        }
-        @keyframes star-pulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 10px 2px var(--color-star-glow), 0 0 40px 10px var(--color-nebula-pink); }
-            50% { transform: translate(-50%, -50%) scale(1.2); box-shadow: 0 0 20px 5px var(--color-star-glow), 0 0 70px 20px var(--color-nebula-pink); }
+        @keyframes zoom-in-out {
+            0% { font-size: 1px; opacity: 0.5; }
+            50% { font-size: 200px; opacity: 1; }
+            100% { font-size: 1px; opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
         }
 
-        /* --- SCENE 3: PESAN --- */
-        #message-container {
+        .main-message p {
+            font-size: 1.5rem;
+            line-height: 1.7;
             max-width: 600px;
-            text-align: center;
-        }
-        #message-container p {
-            font-family: var(--font-serif-display);
-            font-size: 2rem;
-            line-height: 1.8;
-            margin-bottom: 40px;
-        }
-        .message-word {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(20px);
+            margin: 0 auto;
         }
 
-        #reignite-button {
-            font-family: var(--font-serif-display);
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            color: var(--color-gold);
-            background: transparent;
-            border: 1px solid var(--color-gold);
+        /* --- Animasi Hujan Hati --- */
+        .heart-rain-container {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .heart {
+            position: absolute;
+            top: -10%;
+            font-size: 1.5rem;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* --- Tombol --- */
+        .action-button {
+            display: inline-block;
+            margin-top: 30px;
             padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--text-color);
+            background-color: var(--button-bg);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 50px;
-            cursor: none;
-            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.2s;
             opacity: 0;
             transform: translateY(20px);
-        }
-        #reignite-button:hover {
-            background: var(--color-gold);
-            color: var(--color-space-dark);
-            box-shadow: 0 0 20px var(--color-gold);
         }
         
-        /* --- SCENE 4: FINALE --- */
-        #supernova {
-            position: fixed;
-            width: 1px;
-            height: 1px;
-            border-radius: 50%;
-            background: var(--color-star-glow);
-            transform: scale(1);
-            z-index: 10;
+        .action-button.visible {
+            animation: slide-fade-in 1s ease-out forwards;
         }
 
-        #scene-finale h1 {
-            font-family: var(--font-serif-display);
-            font-size: 3.5rem;
-            color: #333;
+        @keyframes slide-fade-in {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        #scene-finale p {
-            margin-top: 15px;
-            font-size: 1.2rem;
-            color: #555;
-        }
-        #whatsapp-button {
-            font-family: var(--font-sans-body);
-            background: #25D366;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            margin-top: 40px;
-            display: inline-block;
-            transition: transform 0.2s ease;
-        }
-        #whatsapp-button:hover {
+
+        .action-button:hover {
+            background-color: var(--button-hover-bg);
             transform: scale(1.05);
+        }
+
+        /* --- Tahap 3: Final --- */
+        #final-screen {
+            position: absolute;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+            pointer-events: none;
+        }
+        #final-screen.visible {
+            opacity: 1; transform: translateY(0); pointer-events: all;
+        }
+        #final-screen h1 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+        }
+        #final-screen p { margin-top: 10px; font-size: 1.2rem; }
+        #final-screen a {
+            background-color: #25D366; border: none;
+        }
+        #final-screen a:hover {
+            background-color: #128C7E;
+        }
+        
+        /* Tombol Musik */
+        #music-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 100;
         }
 
     </style>
 </head>
 <body>
 
-    <div id="universe">
-        <div id="starfield"></div>
-        <div id="nebula"></div>
-    </div>
+    <div id="heart-rain-container"></div>
     
-    <div id="cursor-dot" class="cursor"></div>
-    <div id="cursor-aura" class="cursor"></div>
+    <audio id="bg-music" loop src="https://cdn.pixabay.com/download/audio/2022/02/12/audio_8267252a6d.mp3"></audio>
+    <button id="music-toggle">🔊</button>
 
-    <div id="scene-prologue" class="scene active">
-        <h1 id="prologue-title">Sebuah Bintang Kehilangan Arahnya</h1>
-        <p id="prologue-subtitle">Klik di mana saja untuk memulai perjalanan</p>
+    <div id="initial-screen" class="container" onclick="startSequence()">
+        <div class="envelope">💌</div>
+        <div class="typing-text" id="intro-text"></div>
     </div>
 
-    <div id="scene-constellation" class="scene">
-        <div id="constellation-canvas"></div>
-    </div>
-
-    <div id="scene-message" class="scene">
-        <div id="message-container">
-            <p id="apology-message"></p>
-            <button id="reignite-button">Pulihkan Cahayanya</button>
+    <div id="message-screen" class="container">
+        <div class="heart-zoom">❤️</div>
+        <div class="main-message">
+            <p id="apology-text"></p>
         </div>
+        <button id="forgive-button" class="action-button" onclick="showFinalScreen()">Aku maafin kamu</button>
     </div>
 
-    <div id="scene-finale" class="scene">
-        <div id="supernova"></div>
-        <h1 id="finale-title">Cahayanya Telah Kembali</h1>
-        <p>Terima kasih telah menjadi bintang paling terang.</p>
-        <a id="whatsapp-button" href="https://wa.me/[GANTI_NOMOR_KAMU]?text=Okay... kita ngobrol ya." target="_blank">Mari kita kembali ke orbit yang sama</a>
+    <div id="final-screen" class="container">
+        <h1>Makasih banyak! ❤️</h1>
+        <p>Kamu teman yang super baik.</p>
+        <a href="https://wa.me/[GANTI_NOMOR_KAMU]?text=Okee, dimaafin nih.. lain kali jangan gitu lagi yaaa" class="action-button visible" target="_blank">Chat aku sekarang</a>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const scenes = {
-            prologue: document.getElementById('scene-prologue'),
-            constellation: document.getElementById('scene-constellation'),
-            message: document.getElementById('scene-message'),
-            finale: document.getElementById('scene-finale'),
-        };
-        
-        const nebula = document.getElementById('nebula');
-        
-        // --- LOGIKA KURSOR KUSTOM ---
-        const cursorDot = document.getElementById('cursor-dot');
-        const cursorAura = document.getElementById('cursor-aura');
-        window.addEventListener('mousemove', e => {
-            gsap.to(cursorDot, { duration: 0.2, x: e.clientX, y: e.clientY });
-            gsap.to(cursorAura, { duration: 0.5, x: e.clientX, y: e.clientY });
-        });
-        const activateCursor = () => document.body.classList.add('cursor-active');
-        const deactivateCursor = () => document.body.classList.remove('cursor-active');
+        const initialScreen = document.getElementById('initial-screen');
+        const messageScreen = document.getElementById('message-screen');
+        const finalScreen = document.getElementById('final-screen');
+        const forgiveButton = document.getElementById('forgive-button');
+        const music = document.getElementById('bg-music');
+        const musicToggle = document.getElementById('music-toggle');
 
-        // --- MANAJEMEN SCENE ---
-        const switchScene = (from, to) => {
-            from.classList.remove('active');
-            to.classList.add('active');
-        };
-
-        // --- SCENE 1: PROLOG ---
-        const tlPrologue = gsap.timeline();
-        tlPrologue.from("#prologue-title", { duration: 2, opacity: 0, scale: 0.8 })
-                  .from("#prologue-subtitle", { duration: 1.5, opacity: 0 }, "-=1");
-
-        document.body.addEventListener('click', startConstellation, { once: true });
+        // Ganti teksnya di sini biar lebih personal
+        const introText = "Hallo Dedek Maniesss... Aku tahu kamu lagi bete. Ada sesuatu yang pengen banget aku sampaikan ke kamu... Coba buka ya.";
+        const apologyText = "Maafin aku ya soal kemarin. Aku sadar kelakuanku itu salah dan udah bikin kamu nggak nyaman. Persahabatan kita itu penting banget buat aku, dan aku nggak mau ada jarak di antara kita. Please, forgive me ya ❤️.";
         
-        function startConstellation() {
-            gsap.to(scenes.prologue, {
-                duration: 1.5,
-                opacity: 0,
-                onComplete: () => {
-                    switchScene(scenes.prologue, scenes.constellation);
-                    initConstellation();
+        let hasStarted = false;
+
+        function typeWriter(text, elementId, speed, onComplete) {
+            let i = 0;
+            const targetElement = document.getElementById(elementId);
+            targetElement.innerHTML = '<span></span>';
+            const cursor = targetElement.querySelector('span');
+            function type() {
+                if (i < text.length) {
+                    cursor.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    if (onComplete) onComplete();
                 }
-            });
-        }
-        
-        // --- SCENE 2: KONSTELASI ---
-        const canvas = document.getElementById('constellation-canvas');
-        const starPositions = [
-            { x: '20%', y: '50%' }, { x: '40%', y: '30%' },
-            { x: '60%', y: '40%' }, { x: '50%', y: '65%' }, { x: '80%', y: '55%' }
-        ];
-        let currentStar = 0;
-
-        function initConstellation() {
-            createStar(0);
-        }
-
-        function createStar(index) {
-            if (index >= starPositions.length) {
-                setTimeout(revealMessage, 1000);
-                return;
             }
-            const pos = starPositions[index];
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = pos.x;
-            star.style.top = pos.y;
-            canvas.appendChild(star);
-            
-            gsap.to(star, { 
-                duration: 1, 
-                scale: 1, 
-                ease: 'elastic.out(1, 0.5)',
-                onComplete: () => {
-                    star.classList.add('active-target');
-                    star.addEventListener('click', connectStar);
-                    star.addEventListener('mouseover', activateCursor);
-                    star.addEventListener('mouseleave', deactivateCursor);
-                }
-            });
+            type();
         }
 
-        function connectStar(e) {
-            const clickedStar = e.target;
-            clickedStar.classList.remove('active-target');
-            clickedStar.classList.add('connected');
-            clickedStar.removeEventListener('click', connectStar);
-            deactivateCursor();
+        window.onload = () => {
+             typeWriter(introText, 'intro-text', 60);
+        };
 
-            if (currentStar > 0) {
-                const prevPos = starPositions[currentStar - 1];
-                const currentPos = starPositions[currentStar];
-                
-                const prevEl = canvas.children[currentStar - 1];
-                const x1 = prevEl.offsetLeft, y1 = prevEl.offsetTop;
-                const x2 = clickedStar.offsetLeft, y2 = clickedStar.offsetTop;
+        function startSequence() {
+            if (hasStarted) return;
+            hasStarted = true;
 
-                const distance = Math.sqrt((x2-x1)**2 + (y2-y1)**2);
-                const angle = Math.atan2(y2-y1, x2-x1) * (180/Math.PI);
-                
-                const line = document.createElement('div');
-                line.className = 'constellation-line';
-                line.style.left = `${x1}px`;
-                line.style.top = `${y1}px`;
-                line.style.width = '0px';
-                line.style.transform = `rotate(${angle}deg)`;
-                canvas.appendChild(line);
-                gsap.to(line, { duration: 1, width: `${distance}px`, ease: 'power2.out' });
-            }
+            // Memulai musik saat interaksi pertama
+            music.play().catch(e => console.log("Autoplay ditolak browser, perlu interaksi pengguna."));
 
-            currentStar++;
-            createStar(currentStar);
-        }
-
-        // --- SCENE 3: PESAN ---
-        function revealMessage() {
-            gsap.to(nebula, { duration: 5, opacity: 0.3 });
-            gsap.to(scenes.constellation, {
-                duration: 1.5,
-                opacity: 0,
-                onComplete: () => switchScene(scenes.constellation, scenes.message)
-            });
-
-            const message = "Di galaksi pertemanan kita, aku menciptakan sebuah lubang hitam kecil. Maafkan aku telah meredupkan cahayamu.";
-            const messageEl = document.getElementById('apology-message');
-            message.split(' ').forEach(word => {
-                const span = document.createElement('span');
-                span.className = 'message-word';
-                span.textContent = word + ' ';
-                messageEl.appendChild(span);
-            });
-
-            gsap.to(".message-word", {
-                duration: 1.5,
-                opacity: 1,
-                y: 0,
-                stagger: 0.1,
-                ease: 'power2.out',
-                onComplete: () => {
-                    gsap.to("#reignite-button", { duration: 1, opacity: 1, y: 0 });
-                }
-            });
-        }
-
-        document.getElementById('reignite-button').addEventListener('click', startFinale);
-        document.getElementById('reignite-button').addEventListener('mouseover', activateCursor);
-        document.getElementById('reignite-button').addEventListener('mouseleave', deactivateCursor);
-
-        // --- SCENE 4: FINALE ---
-        function startFinale() {
-            gsap.to(scenes.message, {
-                duration: 1,
-                opacity: 0,
-                onComplete: () => {
-                    switchScene(scenes.message, scenes.finale);
-                    const supernova = document.getElementById('supernova');
-                    gsap.to(supernova, {
-                        duration: 2.5,
-                        scale: Math.max(window.innerWidth, window.innerHeight) * 2,
-                        ease: 'expo.in',
-                        onComplete: () => {
-                            document.body.style.backgroundColor = '#f0f8ff';
-                            const tl = gsap.timeline();
-                            tl.from("#finale-title", { duration: 1, opacity: 0, y: 20 })
-                              .from("p", { duration: 1, opacity: 0, y: 20 }, "-=0.5")
-                              .from("#whatsapp-button", { duration: 1, opacity: 0, y: 20 }, "-=0.5");
-                        }
+            initialScreen.classList.add('hidden');
+            setTimeout(() => {
+                initialScreen.style.display = 'none';
+                messageScreen.classList.add('visible');
+                setTimeout(() => {
+                    createHearts();
+                    typeWriter(apologyText, 'apology-text', 60, () => {
+                        forgiveButton.classList.add('visible');
                     });
-                }
-            });
+                }, 1500);
+            }, 500);
         }
-    });
+
+        function showFinalScreen() {
+            messageScreen.classList.remove('visible');
+            setTimeout(() => {
+                messageScreen.style.display = 'none';
+                finalScreen.classList.add('visible');
+            }, 500);
+        }
+
+        // Fungsi membuat hujan hati
+        function createHearts() {
+            const container = document.getElementById('heart-rain-container');
+            const hearts = ['❤️', '💖', '💕', '💛', '💙'];
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.animationDuration = `${Math.random() * 3 + 4}s`; // 4-7 detik
+                heart.style.opacity = Math.random() * 0.7 + 0.3; // opacity 0.3 - 1.0
+                heart.style.fontSize = `${Math.random() * 1 + 1}rem`; // 1-2 rem
+                container.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 7000);
+            }, 150); // Buat hati baru lebih cepat
+        }
+
+        // Kontrol Tombol Musik
+        musicToggle.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                musicToggle.textContent = '🔊';
+            } else {
+                music.pause();
+                musicToggle.textContent = '🔇';
+            }
+        });
     </script>
 </body>
 </html>
