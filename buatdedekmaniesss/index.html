@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sebuah Pesan untuk Dedek Maniess</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- VARIABLE DESAIN & PALET WARNA ELEGAN --- */
+        :root {
+            --bg-color: #0a0a1a; /* Biru malam yang sangat gelap */
+            --primary-text: #e0e0e0;
+            --accent-gold: #d4af37; /* Emas yang tidak norak */
+            --accent-soft-lavender: #b0a4d4;
+            --shadow-color: rgba(212, 175, 55, 0.2);
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Lato', sans-serif;
+        }
+
+        /* --- GENERAL SETUP & RESET --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-color) 0%, #1a1a2e 100%);
+            color: var(--primary-text);
+            font-family: var(--font-sans);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px; /* Untuk efek 3D */
+            cursor: none; /* Sembunyikan kursor asli */
+        }
+        
+        /* --- EFEK PARTIKEL BINTANG DI BACKGROUND --- */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* --- KURSOR KUSTOM --- */
+        .custom-cursor {
+            position: fixed;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease-out;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-gold);
+            border-radius: 50%;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--accent-gold);
+            border-radius: 50%;
+            transform: translate(-16px, -16px);
+            opacity: 0.5;
+        }
+        
+        /* --- CONTAINER UTAMA --- */
+        .container {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        /* --- SCENE 1: UNDANGAN PEMBUKA --- */
+        #scene-invitation {
+            position: absolute;
+        }
+
+        #envelope-container {
+            position: relative;
+            width: 250px;
+            height: 170px;
+            cursor: none; /* Kursor kustom akan menggantikan */
+        }
+
+        .envelope-part {
+            position: absolute;
+            transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        #envelope-back { z-index: 1; }
+        #envelope-letter { z-index: 2; transform: translateY(150px) scale(0.8); }
+        #envelope-flap { z-index: 4; transform-origin: top center; }
+        #envelope-front { z-index: 5; }
+
+        /* State terbuka */
+        #envelope-container.open #envelope-flap {
+            transform: rotateX(180deg);
+        }
+        #envelope-container.open #envelope-letter {
+            transform: translateY(-80px) scale(1);
+        }
+
+        .intro-text {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            margin-top: 30px;
+            opacity: 0; /* Awalnya transparan */
+        }
+
+        /* --- SCENE 2: PESAN UTAMA --- */
+        #scene-message {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        #letter-paper {
+            width: 90vw;
+            max-width: 600px;
+            padding: 50px 60px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #apology-text {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            line-height: 1.7;
+            text-align: left;
+            color: #fff;
+            white-space: pre-wrap;
+            min-height: 250px;
+        }
+
+        #apology-text::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+            color: var(--accent-gold);
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* --- BUNGA SVG YANG TUMBUH --- */
+        #flower-garden {
+            position: fixed;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 800px;
+            height: 200px;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .flower-svg {
+            position: absolute;
+            bottom: 0;
+            width: 100px;
+            height: 100px;
+            opacity: 0.8;
+        }
+
+        /* --- TOMBOL AKSI --- */
+        .action-button {
+            font-family: var(--font-sans);
+            font-weight: 400;
+            margin-top: 40px;
+            padding: 15px 40px;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            background-color: transparent;
+            border-radius: 50px;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            cursor: none;
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover {
+            background-color: var(--accent-gold);
+            color: var(--bg-color);
+            box-shadow: 0 0 20px var(--shadow-color);
+        }
+
+        /* --- SCENE 3: LAYAR FINAL --- */
+        #scene-final {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(50px);
+        }
+        
+        #scene-final h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        #scene-final p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="custom-cursor cursor-dot"></div>
+    <div class="custom-cursor cursor-outline"></div>
+
+    <div id="particles-js"></div>
+
+    <div id="scene-invitation" class="container">
+        <div id="envelope-container">
+            <svg class="envelope-part" id="envelope-back" viewBox="0 0 250 170" fill="#b0a4d4"><rect width="250" height="170" rx="10"></rect></svg>
+            <svg class="envelope-part" id="envelope-letter" viewBox="0 0 220 140" fill="#ffffff" style="filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));"><rect width="220" height="140" rx="5"></rect><line x1="20" y1="30" x2="200" y2="30" stroke="#e0e0e0" stroke-width="2"></line><line x1="20" y1="50" x2="200" y2="50" stroke="#e0e0e0" stroke-width="2"></line><line x1="20" y1="70" x2="150" y2="70" stroke="#e0e0e0" stroke-width="2"></line></svg>
+            <svg class="envelope-part" id="envelope-front" viewBox="0 0 250 170" fill="#c1b6e0"><rect width="250" height="170" rx="10"></rect></svg>
+            <svg class="envelope-part" id="envelope-flap" viewBox="0 0 250 85" fill="#b0a4d4"><polygon points="0,0 250,0 125,85"></polygon></svg>
+        </div>
+        <p class="intro-text" id="intro-text">Aku punya sesuatu untukmu...</p>
+    </div>
+
+    <div id="scene-message" class="container">
+        <div id="letter-paper">
+            <p id="apology-text"></p>
+        </div>
+        <button id="forgive-button" class="action-button" style="opacity: 0; pointer-events: none;">Tentu, aku maafkan</button>
+    </div>
+    
+    <div id="scene-final" class="container">
+        <h1>Terima Kasih Banyak ❤️</h1>
+        <p>Kamu memang yang terbaik.</p>
+        <a href="https://wa.me/[GANTI_NOMOR_KAMU]?text=Okee, dimaafin. Lain kali jangan gitu lagi ya..." class="action-button" target="_blank">Chat aku di WhatsApp</a>
+    </div>
+
+    <div id="flower-garden">
+        <svg class="flower-svg" style="left: 10%;" viewBox="0 0 100 100">
+            <path d="M50 95 C 20 75, 20 45, 50 20 C 80 45, 80 75, 50 95 Z" fill="#ffb6c1" />
+            <path d="M50 95 C 40 65, 25 60, 20 40 C 45 20, 75 20, 80 40 C 75 60, 60 65, 50 95 Z" fill="#ff69b4" />
+        </svg>
+        <svg class="flower-svg" style="left: 75%;" viewBox="0 0 100 100">
+            <path d="M50 95 C 20 75, 20 45, 50 20 C 80 45, 80 75, 50 95 Z" fill="#f0e68c" />
+            <path d="M50 95 C 40 65, 25 60, 20 40 C 45 20, 75 20, 80 40 C 75 60, 60 65, 50 95 Z" fill="#ffd700" />
+        </svg>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+    <script>
+        // --- INISIALISASI ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initCustomCursor();
+            initParticles();
+            startIntroAnimation();
+        });
+
+        // --- PENGATURAN KURSOR KUSTOM ---
+        function initCustomCursor() {
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+            
+            window.addEventListener('mousemove', e => {
+                const { clientX: x, clientY: y } = e;
+                gsap.to(cursorDot, { duration: 0.2, x, y });
+                gsap.to(cursorOutline, { duration: 0.6, x, y });
+            });
+        }
+        
+        // --- PENGATURAN BACKGROUND PARTIKEL ---
+        function initParticles() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                    "color": { "value": "#ffffff" },
+                    "shape": { "type": "circle", "stroke": { "width": 0, "color": "#000000" } },
+                    "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } },
+                    "size": { "value": 2, "random": true },
+                    "line_linked": { "enable": false },
+                    "move": { "enable": true, "speed": 0.5, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
+                },
+                "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": false }, "onclick": { "enable": false } } }
+            });
+        }
+
+        // --- ANIMASI UTAMA ---
+        const envelope = document.getElementById('envelope-container');
+        const introText = document.getElementById('intro-text');
+        
+        const sceneInvitation = document.getElementById('scene-invitation');
+        const sceneMessage = document.getElementById('scene-message');
+        const sceneFinal = document.getElementById('scene-final');
+
+        // Timeline Animasi Pembuka
+        function startIntroAnimation() {
+            const tl = gsap.timeline();
+            tl.from(envelope, { duration: 1.5, y: -200, opacity: 0, ease: 'bounce.out' })
+              .to(introText, { duration: 1, opacity: 1, ease: 'power2.inOut' }, "-=0.5");
+        }
+
+        // Saat amplop di-klik
+        envelope.addEventListener('click', openEnvelope);
+        let hasOpened = false;
+        
+        function openEnvelope() {
+            if (hasOpened) return;
+            hasOpened = true;
+
+            const tl = gsap.timeline();
+            tl.to(envelope, {
+                onStart: () => envelope.classList.add('open'),
+                duration: 1,
+                ease: 'power3.inOut'
+            })
+            .to(envelope, {
+                duration: 1.5,
+                y: 100,
+                rotationZ: -15,
+                opacity: 0,
+                ease: 'power3.in'
+            }, "+=0.5")
+            .to(introText, { duration: 0.5, opacity: 0, ease: 'power2.out' }, "-=1.5")
+            .to(sceneMessage, {
+                duration: 1.5,
+                opacity: 1,
+                scale: 1,
+                pointerEvents: 'all',
+                ease: 'elastic.out(1, 0.75)',
+                onComplete: typeApology
+            }, "-=1");
+        }
+        
+        // Animasi Ketik untuk Pesan
+        function typeApology() {
+            const apologyElement = document.getElementById('apology-text');
+            const forgiveButton = document.getElementById('forgive-button');
+            const flowerGarden = document.getElementById('flower-garden');
+
+            const text = `Untuk Dedek Maniess,\n\nMaafin aku ya, kalau kemarin aku bikin kamu kesal. Sejujurnya, sama sekali nggak ada niat begitu. Aku cuma iseng yang ternyata salah tempat dan salah waktu.\n\nKeisenganku itu nggak sebanding sama perasaan nggak nyaman kamu. Aku benar-benar menghargai kamu, dan aku nggak mau ada jarak di antara kita cuma karena hal sepele.\n\nPlease, forgive me ya ❤️.\n\nDari, [GANTI NAMA KAMU]`;
+
+            let i = 0;
+            apologyElement.innerHTML = "";
+            
+            function type() {
+                if (i < text.length) {
+                    apologyElement.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, 50);
+                } else {
+                    apologyElement.style.animation = 'none'; // Stop blinking cursor
+                    apologyElement.innerHTML = apologyElement.innerHTML.replace('|', '');
+                    gsap.to(forgiveButton, { duration: 1, opacity: 1, pointerEvents: 'all' });
+                }
+            }
+            
+            gsap.to(flowerGarden, { duration: 2, opacity: 1, y: -50, ease: 'power2.out' });
+            gsap.from(".flower-svg", { duration: 3, scale: 0, y: 100, stagger: 0.5, ease: 'elastic.out(1, 0.5)' });
+
+            type();
+        }
+
+        // Saat tombol maaf di-klik
+        document.getElementById('forgive-button').addEventListener('click', () => {
+            const tl = gsap.timeline();
+            tl.to(sceneMessage, { duration: 1, opacity: 0, y: -50, pointerEvents: 'none', ease: 'power3.in' })
+              .to(sceneFinal, { duration: 1.5, opacity: 1, y: 0, pointerEvents: 'all', ease: 'elastic.out(1, 0.75)' });
+        });
+
+    </script>
+</body>
+</html>
