@@ -3,33 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>buat dedek maniess</title>
+    <title>Sebuah Pesan Untukmu</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Palet Warna Baru: Senja yang Hangat & Romantis */
-            --bg-grad-1: #23153C; /* Ungu Gelap */
-            --bg-grad-2: #44234C;
-            --bg-grad-3: #943A58; /* Magenta Hangat */
+            /* Palet Warna: Hitam Elegan & Emas */
+            --bg-color: #121212;
             --text-color: #F5F5F5;
-            --accent-color: #FFD700; /* Emas sebagai aksen */
+            --accent-color: #FFD700; /* Emas */
             --button-bg: rgba(255, 255, 255, 0.1);
             --button-hover-bg: rgba(255, 255, 255, 0.2);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            /* Background Gradient Animasi yang Halus */
-            background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3));
-            background-size: 400% 400%;
-            animation: gradient-flow 15s ease infinite;
+            background-color: var(--bg-color);
             color: var(--text-color);
             font-family: 'Poppins', sans-serif;
             display: flex;
@@ -38,12 +29,6 @@
             height: 100vh;
             overflow: hidden;
             text-align: center;
-        }
-
-        @keyframes gradient-flow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
 
         .container {
@@ -55,172 +40,52 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
-
-        /* --- Tahap 1: Amplop --- */
-        #initial-screen {
-            cursor: pointer;
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-        }
-        #initial-screen.hidden {
-            opacity: 0;
-            transform: scale(0.8);
-            pointer-events: none;
-        }
-        .envelope {
-            font-size: 100px;
-            animation: float 3s ease-in-out infinite;
-            text-shadow: 0 0 15px rgba(255,215,0,0.5);
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-        .typing-text {
-            margin-top: 20px;
-            font-size: 1.2rem;
-            min-height: 80px;
-            max-width: 500px;
-        }
-        .typing-text span {
-            border-right: .15em solid var(--accent-color);
-            animation: blink-caret .75s step-end infinite;
-        }
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: var(--accent-color); }
-        }
-
-        /* --- Tahap 2: Pesan Utama --- */
-        #message-screen {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-            transform: scale(1.1);
-            transition: opacity 0.7s ease-in, transform 0.7s ease-in;
-        }
-        #message-screen.visible {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: all;
-        }
-
-        .heart-zoom {
-            position: fixed; top: 50%; left: 50%;
-            font-size: 1px;
-            transform: translate(-50%, -50%);
-            animation: zoom-in-out 1.5s ease-in-out forwards;
-            opacity: 0;
-            text-shadow: 0 0 20px red;
-        }
-        @keyframes zoom-in-out {
-            0% { font-size: 1px; opacity: 0.5; }
-            50% { font-size: 200px; opacity: 1; }
-            100% { font-size: 1px; opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-        }
-
-        .main-message p {
-            font-size: 1.5rem;
-            line-height: 1.7;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* --- Animasi Hujan Hati --- */
-        .heart-rain-container {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        .heart {
-            position: absolute;
-            top: -10%;
-            font-size: 1.5rem;
-            animation: fall linear infinite;
-        }
-        @keyframes fall {
-            to { transform: translateY(110vh) rotate(360deg); }
-        }
-
-        /* --- Tombol --- */
-        .action-button {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 15px 30px;
-            font-size: 1rem;
-            font-weight: bold;
-            color: var(--text-color);
-            background-color: var(--button-bg);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s, transform 0.2s;
-            opacity: 0;
-            transform: translateY(20px);
-        }
         
-        .action-button.visible {
-            animation: slide-fade-in 1s ease-out forwards;
-        }
-
-        @keyframes slide-fade-in {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .action-button:hover {
-            background-color: var(--button-hover-bg);
-            transform: scale(1.05);
-        }
-
-        /* --- Tahap 3: Final --- */
-        #final-screen {
-            position: absolute;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s, transform 0.5s;
-            pointer-events: none;
-        }
-        #final-screen.visible {
-            opacity: 1; transform: translateY(0); pointer-events: all;
-        }
-        #final-screen h1 {
-            font-size: 2.5rem;
-            color: var(--accent-color);
-        }
+        #initial-screen { cursor: pointer; transition: opacity 0.5s, transform 0.5s; }
+        #initial-screen.hidden { opacity: 0; transform: scale(0.8); pointer-events: none; }
+        .envelope { font-size: 100px; animation: float 3s ease-in-out infinite; text-shadow: 0 0 15px var(--accent-color); }
+        
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        
+        .typing-text { margin-top: 20px; font-size: 1.2rem; min-height: 80px; max-width: 500px; }
+        .typing-text span { border-right: .15em solid var(--accent-color); animation: blink-caret .75s step-end infinite; }
+        
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent-color); } }
+        
+        #message-screen { position: absolute; opacity: 0; pointer-events: none; transform: scale(1.1); transition: opacity 0.7s, transform 0.7s; }
+        #message-screen.visible { opacity: 1; transform: scale(1); pointer-events: all; }
+        
+        .heart-zoom { position: fixed; top: 50%; left: 50%; font-size: 1px; transform: translate(-50%, -50%); animation: zoom-in-out 1.5s ease-in-out forwards; opacity: 0; text-shadow: 0 0 20px red; }
+        
+        @keyframes zoom-in-out { 0% { font-size: 1px; opacity: 0.5; } 50% { font-size: 200px; opacity: 1; } 100% { font-size: 1px; opacity: 0; transform: translate(-50%, -50%) scale(0.5); } }
+        
+        .main-message p { font-size: 1.5rem; line-height: 1.7; max-width: 600px; margin: 0 auto; }
+        
+        .rain-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+        .item { position: absolute; top: -10%; font-size: 1.5rem; animation: fall linear infinite; }
+        
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+        
+        .action-button { display: inline-block; margin-top: 30px; padding: 15px 30px; font-size: 1rem; font-weight: bold; color: var(--text-color); background-color: var(--button-bg); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50px; cursor: pointer; text-decoration: none; transition: background-color 0.3s, transform 0.2s; opacity: 0; transform: translateY(20px); }
+        .action-button.visible { animation: slide-fade-in 1s ease-out forwards; }
+        
+        @keyframes slide-fade-in { to { opacity: 1; transform: translateY(0); } }
+        
+        .action-button:hover { background-color: var(--button-hover-bg); transform: scale(1.05); }
+        
+        #final-screen { position: absolute; opacity: 0; transform: translateY(20px); transition: opacity 0.5s, transform 0.5s; pointer-events: none; }
+        #final-screen.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
+        #final-screen h1 { font-size: 2.5rem; color: var(--accent-color); }
         #final-screen p { margin-top: 10px; font-size: 1.2rem; }
-        #final-screen a {
-            background-color: #25D366; border: none;
-        }
-        #final-screen a:hover {
-            background-color: #128C7E;
-        }
+        #final-screen a { background-color: #25D366; border: none; }
+        #final-screen a:hover { background-color: #128C7E; }
         
-        /* Tombol Musik */
-        #music-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.3);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 100;
-        }
-
+        #music-toggle { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.3); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 50px; height: 50px; font-size: 1.5rem; cursor: pointer; z-index: 100; }
     </style>
 </head>
 <body>
 
-    <div id="heart-rain-container"></div>
-    
+    <div id="rain-container"></div>
     <audio id="bg-music" loop src="https://cdn.pixabay.com/download/audio/2022/02/12/audio_8267252a6d.mp3"></audio>
     <button id="music-toggle">🔊</button>
 
@@ -251,7 +116,6 @@
         const music = document.getElementById('bg-music');
         const musicToggle = document.getElementById('music-toggle');
 
-        // Ganti teksnya di sini biar lebih personal
         const introText = "Hallo Dedek Maniesss... Aku tahu kamu lagi bete. Ada sesuatu yang pengen banget aku sampaikan ke kamu... Coba buka ya.";
         const apologyText = "Maafin aku ya soal kemarin. Aku sadar kelakuanku itu salah dan udah bikin kamu nggak nyaman. Persahabatan kita itu penting banget buat aku, dan aku nggak mau ada jarak di antara kita. Please, forgive me ya ❤️.";
         
@@ -274,23 +138,18 @@
             type();
         }
 
-        window.onload = () => {
-             typeWriter(introText, 'intro-text', 60);
-        };
+        window.onload = () => { typeWriter(introText, 'intro-text', 60); };
 
         function startSequence() {
             if (hasStarted) return;
             hasStarted = true;
-
-            // Memulai musik saat interaksi pertama
-            music.play().catch(e => console.log("Autoplay ditolak browser, perlu interaksi pengguna."));
-
+            music.play().catch(e => console.log("Browser memblokir autoplay"));
             initialScreen.classList.add('hidden');
             setTimeout(() => {
                 initialScreen.style.display = 'none';
                 messageScreen.classList.add('visible');
                 setTimeout(() => {
-                    createHearts();
+                    createRain();
                     typeWriter(apologyText, 'apology-text', 60, () => {
                         forgiveButton.classList.add('visible');
                     });
@@ -306,27 +165,22 @@
             }, 500);
         }
 
-        // Fungsi membuat hujan hati
-        function createHearts() {
-            const container = document.getElementById('heart-rain-container');
-            const hearts = ['❤️', '💖', '💕', '💛', '💙'];
+        function createRain() {
+            const container = document.getElementById('rain-container');
+            const items = ['❤️', '💖', '💕', '🌸', '🌺', '🌷'];
             setInterval(() => {
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
-                heart.style.left = `${Math.random() * 100}vw`;
-                heart.style.animationDuration = `${Math.random() * 3 + 4}s`; // 4-7 detik
-                heart.style.opacity = Math.random() * 0.7 + 0.3; // opacity 0.3 - 1.0
-                heart.style.fontSize = `${Math.random() * 1 + 1}rem`; // 1-2 rem
-                container.appendChild(heart);
-
-                setTimeout(() => {
-                    heart.remove();
-                }, 7000);
-            }, 150); // Buat hati baru lebih cepat
+                const item = document.createElement('div');
+                item.classList.add('item');
+                item.innerText = items[Math.floor(Math.random() * items.length)];
+                item.style.left = `${Math.random() * 100}vw`;
+                item.style.animationDuration = `${Math.random() * 3 + 4}s`;
+                item.style.opacity = Math.random() * 0.7 + 0.3;
+                item.style.fontSize = `${Math.random() * 1 + 1}rem`;
+                container.appendChild(item);
+                setTimeout(() => { item.remove(); }, 7000);
+            }, 150);
         }
 
-        // Kontrol Tombol Musik
         musicToggle.addEventListener('click', () => {
             if (music.paused) {
                 music.play();
