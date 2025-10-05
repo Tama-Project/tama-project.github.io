@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sebuah Pesan Untukmu</title>
+    <title>buat dedek maniess</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Palet Warna: Hitam Elegan & Emas */
-            --bg-color: #121212;
+            /* Palet Warna: Elegan Hitam dengan Aksen Ungu Lavender */
+            --bg-color-dark: #0a0a0a; /* Lebih pekat untuk background video */
             --text-color: #F5F5F5;
-            --accent-color: #FFD700; /* Emas */
-            --button-bg: rgba(255, 255, 255, 0.1);
-            --button-hover-bg: rgba(255, 255, 255, 0.2);
+            --accent-color: #bb86fc; /* Ungu lavender */
+            --button-bg: rgba(187, 134, 252, 0.15);
+            --button-hover-bg: rgba(187, 134, 252, 0.35); /* Hover lebih jelas */
+            --container-bg: rgba(0, 0, 0, 0.4); /* Lebih gelap untuk kontras video */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-color-dark);
             color: var(--text-color);
             font-family: 'Poppins', sans-serif;
             display: flex;
@@ -29,21 +30,51 @@
             height: 100vh;
             overflow: hidden;
             text-align: center;
+            position: relative;
+        }
+
+        /* Video Background */
+        #bg-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            transform: translateX(-50%) translateY(-50%);
+            object-fit: cover; /* Memastikan video mengisi seluruh layar */
+            filter: brightness(0.4) grayscale(0.2); /* Gelapkan dan sedikit grayscale */
         }
 
         .container {
             max-width: 90%;
             padding: 30px;
-            background: rgba(0, 0, 0, 0.25);
+            background: var(--container-bg); /* Menggunakan warna yang lebih gelap */
             border-radius: 20px;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.15); /* Border lebih jelas */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5); /* Bayangan lebih dalam */
+            z-index: 1; /* Pastikan di atas video */
         }
         
-        #initial-screen { cursor: pointer; transition: opacity 0.5s, transform 0.5s; }
-        #initial-screen.hidden { opacity: 0; transform: scale(0.8); pointer-events: none; }
-        .envelope { font-size: 100px; animation: float 3s ease-in-out infinite; text-shadow: 0 0 15px var(--accent-color); }
+        /* Animasi amplop saat diklik */
+        #initial-screen {
+            cursor: pointer;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transform-origin: center center; /* Rotasi dari tengah */
+        }
+        #initial-screen.hidden {
+            opacity: 0;
+            transform: scale(0.5) rotateY(180deg) translateY(-50px); /* Rotasi dan terbang */
+            pointer-events: none;
+        }
+        .envelope {
+            font-size: 100px;
+            animation: float 3s ease-in-out infinite;
+            text-shadow: 0 0 20px var(--accent-color); /* Efek cahaya lebih kuat */
+        }
         
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
         
@@ -52,41 +83,118 @@
         
         @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent-color); } }
         
-        #message-screen { position: absolute; opacity: 0; pointer-events: none; transform: scale(1.1); transition: opacity 0.7s, transform 0.7s; }
-        #message-screen.visible { opacity: 1; transform: scale(1); pointer-events: all; }
+        /* Transisi untuk message-screen */
+        #message-screen {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.8) translateY(20px); /* Muncul dari sedikit bawah dan zoom in */
+            transition: opacity 1s ease-in, transform 1s ease-in;
+            z-index: 1;
+        }
+        #message-screen.visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: all;
+        }
         
-        .heart-zoom { position: fixed; top: 50%; left: 50%; font-size: 1px; transform: translate(-50%, -50%); animation: zoom-in-out 1.5s ease-in-out forwards; opacity: 0; text-shadow: 0 0 20px red; }
-        
-        @keyframes zoom-in-out { 0% { font-size: 1px; opacity: 0.5; } 50% { font-size: 200px; opacity: 1; } 100% { font-size: 1px; opacity: 0; transform: translate(-50%, -50%) scale(0.5); } }
-        
+        /* Animasi Hati 3D */
+        .heart-3d {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 150px; /* Ukuran hati */
+            height: 150px;
+            transform: translate(-50%, -50%) scale(0); /* Mulai dari kecil */
+            opacity: 0;
+            color: red; /* Warna hati */
+            font-size: 150px; /* Ukuran emoji hati */
+            animation: heart-pulse-zoom 2s ease-out forwards;
+            z-index: 10;
+            text-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+        }
+
+        @keyframes heart-pulse-zoom {
+            0% { transform: translate(-50%, -50%) scale(0) rotateY(0deg); opacity: 0; }
+            30% { transform: translate(-50%, -50%) scale(1.2) rotateY(30deg); opacity: 1; }
+            70% { transform: translate(-50%, -50%) scale(1) rotateY(60deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0) rotateY(90deg); opacity: 0; }
+        }
+
         .main-message p { font-size: 1.5rem; line-height: 1.7; max-width: 600px; margin: 0 auto; }
         
-        .rain-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
-        .item { position: absolute; top: -10%; font-size: 1.5rem; animation: fall linear infinite; }
+        /* Animasi Hujan Hati & Bunga */
+        .rain-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .item { 
+            position: absolute; top: -10%; 
+            font-size: 1.2rem; /* Ukuran default */
+            animation: fall linear infinite;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); /* Efek glowing ringan */
+        }
         
-        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+        @keyframes fall { to { transform: translateY(110vh) rotate(720deg); opacity: 0; } } /* Lebih banyak rotasi */
         
-        .action-button { display: inline-block; margin-top: 30px; padding: 15px 30px; font-size: 1rem; font-weight: bold; color: var(--text-color); background-color: var(--button-bg); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50px; cursor: pointer; text-decoration: none; transition: background-color 0.3s, transform 0.2s; opacity: 0; transform: translateY(20px); }
-        .action-button.visible { animation: slide-fade-in 1s ease-out forwards; }
+        /* Tombol */
+        .action-button { 
+            display: inline-block; margin-top: 30px; padding: 15px 30px; font-size: 1rem; font-weight: bold; color: var(--text-color); 
+            background-color: var(--button-bg); border: 1px solid rgba(187, 134, 252, 0.4); 
+            border-radius: 50px; cursor: pointer; text-decoration: none; 
+            transition: background-color 0.3s, transform 0.2s, border-color 0.3s; 
+            opacity: 0; transform: translateY(40px); /* Mulai lebih rendah */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .action-button.visible { animation: slide-fade-in 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; } /* Animasi bounce */
         
-        @keyframes slide-fade-in { to { opacity: 1; transform: translateY(0); } }
+        @keyframes slide-fade-in { 
+            from { opacity: 0; transform: translateY(40px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
         
-        .action-button:hover { background-color: var(--button-hover-bg); transform: scale(1.05); }
+        .action-button:hover { 
+            background-color: var(--button-hover-bg); 
+            transform: scale(1.08) translateY(-5px); /* Efek hover lebih dramatis */
+            border-color: var(--accent-color);
+        }
         
-        #final-screen { position: absolute; opacity: 0; transform: translateY(20px); transition: opacity 0.5s, transform 0.5s; pointer-events: none; }
+        #final-screen {
+            position: absolute; opacity: 0; transform: translateY(20px); 
+            transition: opacity 0.7s ease-in, transform 0.7s ease-in; 
+            pointer-events: none; z-index: 1;
+        }
         #final-screen.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
-        #final-screen h1 { font-size: 2.5rem; color: var(--accent-color); }
-        #final-screen p { margin-top: 10px; font-size: 1.2rem; }
-        #final-screen a { background-color: #25D366; border: none; }
-        #final-screen a:hover { background-color: #128C7E; }
+        #final-screen h1 { font-size: 2.8rem; color: var(--accent-color); text-shadow: 0 0 15px var(--accent-color), 0 0 25px rgba(187, 134, 252, 0.5); } /* Efek glow lebih kuat */
+        #final-screen p { margin-top: 15px; font-size: 1.3rem; }
+        #final-screen a { 
+            background-color: #25D366; border: none; 
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            margin-top: 40px; /* Jarak lebih besar */
+        }
+        #final-screen a:hover { background-color: #128C7E; transform: scale(1.08) translateY(-5px); }
         
-        #music-toggle { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.3); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 50px; height: 50px; font-size: 1.5rem; cursor: pointer; z-index: 100; }
+        /* Tombol Musik */
+        #music-toggle { 
+            position: fixed; bottom: 25px; right: 25px; 
+            background: rgba(0,0,0,0.5); color: white; 
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; 
+            width: 55px; height: 55px; font-size: 1.6rem; cursor: pointer; z-index: 100;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+        }
+        #music-toggle:hover { background-color: rgba(0,0,0,0.7); transform: scale(1.1); }
     </style>
 </head>
 <body>
 
+    <video autoplay muted loop id="bg-video">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-circular-blue-lights-4712-large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
     <div id="rain-container"></div>
     <audio id="bg-music" loop src="https://cdn.pixabay.com/download/audio/2022/02/12/audio_8267252a6d.mp3"></audio>
+    <audio id="click-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-modern-click-1125.mp3"></audio>
+    <audio id="reveal-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-game-bling-2070.mp3"></audio>
+
     <button id="music-toggle">🔊</button>
 
     <div id="initial-screen" class="container" onclick="startSequence()">
@@ -95,17 +203,16 @@
     </div>
 
     <div id="message-screen" class="container">
-        <div class="heart-zoom">❤️</div>
-        <div class="main-message">
+        <div class="heart-3d">❤️</div> <div class="main-message">
             <p id="apology-text"></p>
         </div>
-        <button id="forgive-button" class="action-button" onclick="showFinalScreen()">Aku maafin kamu</button>
+        <button id="forgive-button" class="action-button" onclick="showFinalScreen()">Yes, I forgive you</button>
     </div>
 
     <div id="final-screen" class="container">
-        <h1>Makasih banyak! ❤️</h1>
-        <p>Kamu teman yang super baik.</p>
-        <a href="https://wa.me/[GANTI_NOMOR_KAMU]?text=Okee, dimaafin nih.. lain kali jangan gitu lagi yaaa" class="action-button visible" target="_blank">Chat aku sekarang</a>
+        <h1>Yay, thank you! ❤️</h1>
+        <p>You're the best!</p>
+        <a href="https://wa.me/[GANTI_NOMOR_KAMU]?text=Okeey, dimaafin nih.. lain kali jangan gitu lagi yaaa" class="action-button visible" target="_blank">Jangan lupa chat WhatsApp aku</a>
     </div>
 
     <script>
@@ -114,10 +221,14 @@
         const finalScreen = document.getElementById('final-screen');
         const forgiveButton = document.getElementById('forgive-button');
         const music = document.getElementById('bg-music');
+        const clickSound = document.getElementById('click-sound');
+        const revealSound = document.getElementById('reveal-sound');
         const musicToggle = document.getElementById('music-toggle');
+        const heart3D = document.querySelector('.heart-3d');
 
-        const introText = "Hallo Dedek Maniesss... Aku tahu kamu lagi bete. Ada sesuatu yang pengen banget aku sampaikan ke kamu... Coba buka ya.";
-        const apologyText = "Maafin aku ya soal kemarin. Aku sadar kelakuanku itu salah dan udah bikin kamu nggak nyaman. Persahabatan kita itu penting banget buat aku, dan aku nggak mau ada jarak di antara kita. Please, forgive me ya ❤️.";
+        // Teks permintaan maaf tidak diubah sesuai permintaan
+        const introText = "Hallo Dedek Maniesss, kamu lagi kesal ya? Aku ada surat buat kamu nih, klik amplopnya ya...";
+        const apologyText = "Aku dari tadi kepikiran terus... Maafin aku ya kalau perbuatan/omongan aku tadi nyakitin kamu. Bener-bener nggak ada maksud buat bikin kamu ngerasa gitu. Kamu itu penting buat aku, please forgive me ya ❤️";
         
         let hasStarted = false;
 
@@ -138,23 +249,29 @@
             type();
         }
 
-        window.onload = () => { typeWriter(introText, 'intro-text', 60); };
+        window.onload = () => { typeWriter(introText, 'intro-text', 70); };
 
         function startSequence() {
             if (hasStarted) return;
             hasStarted = true;
+            clickSound.play(); // Efek suara klik
             music.play().catch(e => console.log("Browser memblokir autoplay"));
-            initialScreen.classList.add('hidden');
+
+            initialScreen.classList.add('hidden'); // Amplop berputar dan menghilang
+
             setTimeout(() => {
-                initialScreen.style.display = 'none';
-                messageScreen.classList.add('visible');
+                initialScreen.style.display = 'none'; // Sembunyikan sepenuhnya
+                messageScreen.classList.add('visible'); // Tampilkan pesan utama
+                heart3D.style.animation = 'heart-pulse-zoom 2s ease-out forwards'; // Animasi hati 3D
+                
                 setTimeout(() => {
-                    createRain();
-                    typeWriter(apologyText, 'apology-text', 60, () => {
-                        forgiveButton.classList.add('visible');
+                    createRain(); // Mulai hujan hati/bunga
+                    typeWriter(apologyText, 'apology-text', 80, () => {
+                        forgiveButton.classList.add('visible'); // Tampilkan tombol
+                        revealSound.play(); // Efek suara saat tombol muncul
                     });
-                }, 1500);
-            }, 500);
+                }, 1500); // Tunggu animasi hati selesai
+            }, 800); // Durasi transisi amplop
         }
 
         function showFinalScreen() {
@@ -167,18 +284,27 @@
 
         function createRain() {
             const container = document.getElementById('rain-container');
-            const items = ['❤️', '💖', '💕', '🌸', '🌺', '🌷'];
-            setInterval(() => {
+            const items = ['❤️', '💖', '💕', '🌸', '🌺', '🌷', '✨']; // Tambah efek sparkle
+            let count = 0;
+            const maxItems = 100; // Batasi jumlah item agar tidak terlalu berat
+
+            const rainInterval = setInterval(() => {
+                if (count >= maxItems) {
+                    clearInterval(rainInterval);
+                    return;
+                }
                 const item = document.createElement('div');
                 item.classList.add('item');
                 item.innerText = items[Math.floor(Math.random() * items.length)];
                 item.style.left = `${Math.random() * 100}vw`;
-                item.style.animationDuration = `${Math.random() * 3 + 4}s`;
-                item.style.opacity = Math.random() * 0.7 + 0.3;
-                item.style.fontSize = `${Math.random() * 1 + 1}rem`;
+                item.style.animationDuration = `${Math.random() * 4 + 5}s`; // Durasi jatuh lebih bervariasi
+                item.style.opacity = Math.random() * 0.7 + 0.5; // Opacity lebih tinggi
+                item.style.fontSize = `${Math.random() * 1.5 + 1}rem`; // Ukuran lebih bervariasi
                 container.appendChild(item);
-                setTimeout(() => { item.remove(); }, 7000);
-            }, 150);
+
+                setTimeout(() => { item.remove(); }, 9000); // Hapus setelah animasi selesai
+                count++;
+            }, 100); // Buat item lebih sering
         }
 
         musicToggle.addEventListener('click', () => {
