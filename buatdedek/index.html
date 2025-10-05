@@ -9,12 +9,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --accent-color: #bb86fc;
-            --button-bg: #6200ea;
-            --button-hover-bg: #3700b3;
-            --flower-color: #f8bbd0;
+            /* Palet Warna Baru: Senja yang Hangat & Romantis */
+            --bg-grad-1: #23153C; /* Ungu Gelap */
+            --bg-grad-2: #44234C;
+            --bg-grad-3: #943A58; /* Magenta Hangat */
+            --text-color: #F5F5F5;
+            --accent-color: #FFD700; /* Emas sebagai aksen */
+            --button-bg: rgba(255, 255, 255, 0.1);
+            --button-hover-bg: rgba(255, 255, 255, 0.2);
         }
 
         * {
@@ -24,7 +26,10 @@
         }
 
         body {
-            background-color: var(--bg-color);
+            /* Background Gradient Animasi yang Halus */
+            background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3));
+            background-size: 400% 400%;
+            animation: gradient-flow 15s ease infinite;
             color: var(--text-color);
             font-family: 'Poppins', sans-serif;
             display: flex;
@@ -35,9 +40,19 @@
             text-align: center;
         }
 
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .container {
             max-width: 90%;
             padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* --- Tahap 1: Amplop --- */
@@ -52,18 +67,18 @@
         }
         .envelope {
             font-size: 100px;
-            animation: float 2s ease-in-out infinite;
+            animation: float 3s ease-in-out infinite;
+            text-shadow: 0 0 15px rgba(255,215,0,0.5);
         }
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-15px); }
         }
         .typing-text {
             margin-top: 20px;
             font-size: 1.2rem;
-            min-height: 50px; /* Ruang untuk teks */
+            min-height: 50px;
         }
-        /* Kursor ketik */
         .typing-text span {
             border-right: .15em solid var(--accent-color);
             animation: blink-caret .75s step-end infinite;
@@ -73,14 +88,13 @@
             50% { border-color: var(--accent-color); }
         }
 
-
         /* --- Tahap 2: Pesan Utama --- */
         #message-screen {
             position: absolute;
             opacity: 0;
-            transform: scale(1.2);
-            transition: opacity 0.7s ease-in, transform 0.7s ease-in;
             pointer-events: none;
+            transform: scale(1.1);
+            transition: opacity 0.7s ease-in, transform 0.7s ease-in;
         }
         #message-screen.visible {
             opacity: 1;
@@ -89,13 +103,12 @@
         }
 
         .heart-zoom {
-            position: fixed;
-            top: 50%;
-            left: 50%;
+            position: fixed; top: 50%; left: 50%;
             font-size: 1px;
             transform: translate(-50%, -50%);
             animation: zoom-in-out 1.5s ease-in-out forwards;
             opacity: 0;
+            text-shadow: 0 0 20px red;
         }
         @keyframes zoom-in-out {
             0% { font-size: 1px; opacity: 0.5; }
@@ -110,28 +123,20 @@
             margin: 0 auto;
         }
 
-        /* --- Animasi Bunga --- */
-        .flower-container {
-            position: fixed;
-            bottom: -100px;
-            left: 0;
-            width: 100%;
-            height: 100px;
+        /* --- Animasi Hujan Hati --- */
+        .heart-rain-container {
+            position: fixed; top: -10%; left: 0;
+            width: 100%; height: 110%;
             pointer-events: none;
+            z-index: -1;
         }
-        .flower {
+        .heart {
             position: absolute;
-            bottom: 0;
-            font-size: 2rem;
-            opacity: 0;
-            animation: rise 5s linear forwards;
+            font-size: 1.5rem;
+            animation: fall 5s linear infinite;
         }
-        @keyframes rise {
-            to {
-                bottom: 100vh;
-                opacity: 1;
-                transform: rotate(360deg);
-            }
+        @keyframes fall {
+            to { transform: translateY(105vh) rotate(360deg); }
         }
 
         /* --- Tombol --- */
@@ -141,17 +146,28 @@
             padding: 15px 30px;
             font-size: 1rem;
             font-weight: bold;
-            color: #fff;
+            color: var(--text-color);
             background-color: var(--button-bg);
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 50px;
             cursor: pointer;
             text-decoration: none;
             transition: background-color 0.3s, transform 0.2s;
             opacity: 0;
-            animation: fade-in 1s ease-in forwards;
-            animation-delay: 1s; /* Muncul setelah animasi ketik selesai */
+            transform: translateY(20px); /* Posisi awal untuk animasi slide-in */
         }
+        
+        .action-button.visible {
+            animation: slide-fade-in 1s ease-out forwards;
+        }
+
+        @keyframes slide-fade-in {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .action-button:hover {
             background-color: var(--button-hover-bg);
             transform: scale(1.05);
@@ -166,35 +182,44 @@
             pointer-events: none;
         }
         #final-screen.visible {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: all;
+            opacity: 1; transform: translateY(0); pointer-events: all;
         }
         #final-screen h1 {
             font-size: 2.5rem;
             color: var(--accent-color);
         }
-        #final-screen p {
-            margin-top: 10px;
-            font-size: 1.2rem;
-        }
+        #final-screen p { margin-top: 10px; font-size: 1.2rem; }
         #final-screen a {
-            background-color: #25D366; /* Warna WhatsApp */
+            background-color: #25D366; border: none;
         }
         #final-screen a:hover {
             background-color: #128C7E;
         }
-
-        @keyframes fade-in {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        
+        /* Tombol Musik */
+        #music-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 100;
         }
 
     </style>
 </head>
 <body>
 
-    <div id="flower-container"></div>
+    <div id="heart-rain-container"></div>
+    
+    <audio id="bg-music" loop src="https://cdn.pixabay.com/download/audio/2022/02/12/audio_8267252a6d.mp3"></audio>
+    <button id="music-toggle">🔊</button>
 
     <div id="initial-screen" class="container" onclick="startSequence()">
         <div class="envelope">💌</div>
@@ -206,13 +231,13 @@
         <div class="main-message">
             <p id="apology-text"></p>
         </div>
-        <button id="forgive-button" class="action-button" style="opacity:0; pointer-events:none;" onclick="showFinalScreen()">Yes, I forgive you</button>
+        <button id="forgive-button" class="action-button" onclick="showFinalScreen()">Aku maafin kamu</button>
     </div>
 
     <div id="final-screen" class="container">
-        <h1>Yay, thank you! ❤️</h1>
-        <p>You're the best!</p>
-        <a href="https://wa.me/[+6281213207064]?text=Okeey, dimaafin nih.. lain kali jangan gitu lagi yaaa" class="action-button" target="_blank">Jangan lupa chat WhatsApp aku</a>
+        <h1>Makasih banyak! ❤️</h1>
+        <p>Kamu teman yang super baik.</p>
+        <a href="https://wa.me/[GANTI_NOMOR_KAMU]?text=Okee, dimaafin nih.. lain kali jangan gitu lagi yaaa" class="action-button visible" target="_blank">Chat aku sekarang</a>
     </div>
 
     <script>
@@ -220,19 +245,20 @@
         const messageScreen = document.getElementById('message-screen');
         const finalScreen = document.getElementById('final-screen');
         const forgiveButton = document.getElementById('forgive-button');
+        const music = document.getElementById('bg-music');
+        const musicToggle = document.getElementById('music-toggle');
 
-        const introText = "Hallo Dedek Maniesss, kamu lagi kesal ya? Aku ada surat buat kamu nih, klik amplopnya ya...";
-        const apologyText = "Maafin aku ya kalau aku bikin kamu kesal. Aku bener-bener nggak ada niatan. Aku sangat menghargai kamu dan nggak mau kamu bete sama aku. Please forgive me ya ❤️.";
+        // Ganti teksnya di sini biar lebih personal
+        const introText = "Hallo Dedek Maniesss... Aku tahu kamu lagi bete. Ada sesuatu yang pengen banget aku sampaikan ke kamu. Coba buka ya...";
+        const apologyText = "Maafin aku ya soal kemarin. Beneran deh, nggak ada maksud sama sekali buat bikin kamu kesal. Keisenganku itu salah banget. Persahabatan kita itu penting banget buat aku, dan aku ngga mau ada jarak di antara kita. Please, forgive me ya ❤️.";
         
         let hasStarted = false;
 
-        // Fungsi Animasi Ketik
         function typeWriter(text, elementId, speed, onComplete) {
             let i = 0;
             const targetElement = document.getElementById(elementId);
-            targetElement.innerHTML = '<span></span>'; // Reset dengan kursor
+            targetElement.innerHTML = '<span></span>';
             const cursor = targetElement.querySelector('span');
-            
             function type() {
                 if (i < text.length) {
                     cursor.textContent += text.charAt(i);
@@ -245,35 +271,31 @@
             type();
         }
 
-        // Tampilkan teks awal saat halaman dimuat
         window.onload = () => {
-             typeWriter(introText, 'intro-text', 70);
+             typeWriter(introText, 'intro-text', 60);
         };
 
-        // Mulai Rangkaian Animasi
         function startSequence() {
             if (hasStarted) return;
             hasStarted = true;
 
-            initialScreen.classList.add('hidden');
+            // Memulai musik saat interaksi pertama
+            music.play();
 
+            initialScreen.classList.add('hidden');
             setTimeout(() => {
                 initialScreen.style.display = 'none';
                 messageScreen.classList.add('visible');
-
-                // Efek zoom hati setelah layar pesan muncul
                 setTimeout(() => {
-                    createFlowers(); // Mulai munculin bunga
-                    typeWriter(apologyText, 'apology-text', 80, () => {
-                        // Tampilkan tombol setelah teks selesai
-                        forgiveButton.style.opacity = '1';
-                        forgiveButton.style.pointerEvents = 'all';
+                    createHearts(); // Ganti bunga jadi hati
+                    typeWriter(apologyText, 'apology-text', 60, () => {
+                        // Munculkan tombol dengan animasi slide-fade-in
+                        forgiveButton.classList.add('visible');
                     });
-                }, 1500); // Tunggu animasi hati selesai
-            }, 500); // Tunggu animasi amplop menghilang
+                }, 1500);
+            }, 500);
         }
 
-        // Tampilkan Layar Terakhir
         function showFinalScreen() {
             messageScreen.classList.remove('visible');
             setTimeout(() => {
@@ -282,24 +304,36 @@
             }, 500);
         }
 
-        // Fungsi untuk membuat bunga berjatuhan
-        function createFlowers() {
-            const container = document.getElementById('flower-container');
-            const flowers = ['🌸', '🌺', '🌷', '🌼', '🌻'];
+        // Fungsi membuat hujan hati
+        function createHearts() {
+            const container = document.getElementById('heart-rain-container');
+            const hearts = ['❤️', '💖', '💕', '💛', '💙'];
             setInterval(() => {
-                const flower = document.createElement('div');
-                flower.classList.add('flower');
-                flower.innerText = flowers[Math.floor(Math.random() * flowers.length)];
-                flower.style.left = `${Math.random() * 100}vw`;
-                flower.style.animationDuration = `${Math.random() * 3 + 4}s`; // durasi antara 4-7 detik
-                flower.style.fontSize = `${Math.random() * 1.5 + 1}rem`; // ukuran antara 1-2.5 rem
-                container.appendChild(flower);
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.animationDuration = `${Math.random() * 3 + 4}s`; // 4-7 detik
+                heart.style.opacity = Math.random();
+                heart.style.fontSize = `${Math.random() * 1 + 1}rem`; // 1-2 rem
+                container.appendChild(heart);
 
                 setTimeout(() => {
-                    flower.remove();
-                }, 7000); // Hapus bunga setelah 7 detik
-            }, 300); // Buat bunga baru setiap 300ms
+                    heart.remove();
+                }, 7000);
+            }, 200); // Buat hati baru setiap 200ms
         }
+
+        // Kontrol Tombol Musik
+        musicToggle.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                musicToggle.textContent = '🔊';
+            } else {
+                music.pause();
+                musicToggle.textContent = '🔇';
+            }
+        });
     </script>
 </body>
 </html>
