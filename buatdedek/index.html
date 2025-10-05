@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buat Dedek Maniess</title>
     <style>
-        /* Reset */
+        /* Reset All */
         * {
             margin: 0;
             padding: 0;
@@ -15,179 +15,192 @@
 
         body, html {
             height: 100%;
-            font-family: 'Arial', sans-serif;
-            background: radial-gradient(circle, #000, #222);
+            background: radial-gradient(circle, #0f0f0f, #1a1a1a);
+            font-family: 'Poppins', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #fff;
             overflow: hidden;
+            color: #fff;
+        }
+
+        /* Envelope Start */
+        .envelope-container {
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
         }
 
         #envelope {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            text-align: center;
+            width: 200px;
+            height: 120px;
+            background-color: #ff416c;
+            position: relative;
+            clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
             cursor: pointer;
-            animation: glow 1.5s infinite alternate;
+            animation: pulse 2s infinite alternate;
+            transition: transform 0.3s;
         }
 
-        #envelope img {
-            width: 150px;
-            height: auto;
+        #envelope:hover {
+            transform: scale(1.1);
         }
 
-        @keyframes glow {
+        /* Pulse Animation */
+        @keyframes pulse {
+            to {
+                box-shadow: 0px 4px 20px rgba(255, 65, 108, 0.6);
+            }
+        }
+
+        .label {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            letter-spacing: 0.8px;
+        }
+
+        /* The Love Animation */
+        #love-animation {
+            display: none;
+            margin-top: 30px;
+            font-size: 3rem;
+            animation: heartZoom 2s forwards;
+        }
+
+        @keyframes heartZoom {
             0% {
-                filter: drop-shadow(0 0 10px #ff6f61);
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1);
+                opacity: 1;
             }
             100% {
-                filter: drop-shadow(0 0 20px #ff8563);
+                transform: scale(6);
+                opacity: 0;
             }
         }
 
+        /* Message Section */
         #message-container {
+            margin-top: 40px;
             display: none;
+            animation: fadeIn 1.5s ease-out;
             text-align: center;
-            width: 100%;
-            padding: 15px;
         }
 
         .typed-text {
-            display: inline-block;
+            font-size: 1.4rem;
+            font-weight: 500;
+            border-right: 2px solid #fff;
             white-space: nowrap;
-            border-right: 3px solid #fff;
             overflow: hidden;
-            animation: typing 4s steps(30) forwards, blink 0.6s infinite step-end;
-            font-size: 1.5rem;
+            width: 0;
+            animation: typing 4s steps(40, end), blink 0.8s infinite;
         }
 
         @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
+            to {
+                width: 100%;
+            }
         }
 
         @keyframes blink {
-            50% { border-right: 3px solid transparent; }
-        }
-
-        #love-animation {
-            display: none;
-            animation: zoom-out 2s forwards;
-        }
-
-        @keyframes zoom-out {
-            from {
-                transform: scale(0.5);
-                opacity: 1;
-            }
-            to {
-                transform: scale(4);
-                opacity: 0;
+            50% {
+                border-color: transparent;
             }
         }
 
-        .flowers {
+        /* Flower Animation */
+        #flower-animation {
             display: none;
-            animation: rise 4s ease-in forwards;
+            font-size: 2.2rem;
+            animation: riseUp 3s ease-out forwards;
         }
 
-        @keyframes rise {
+        @keyframes riseUp {
             from {
-                transform: translateY(100%);
+                transform: translateY(50%);
                 opacity: 0;
             }
             to {
-                transform: translateY(0);
+                transform: translateY(0%);
                 opacity: 1;
             }
         }
 
-        #final-message {
-            display: none;
-            margin-top: 20px;
-            font-size: 1.2rem;
-        }
-
+        /* Button */
         #forgive-button {
+            margin-top: 30px;
             display: none;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: linear-gradient(45deg, #ff7faa, #ff616f);
-            border: none;
-            color: white;
+            padding: 12px 25px;
             font-size: 1rem;
-            border-radius: 10px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
             cursor: pointer;
-            box-shadow: 0 5px 10px rgba(255, 97, 111, 0.6);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0px 4px 10px rgba(255, 65, 108, 0.4);
+            transform: scale(1);
+            transition: transform 0.3s ease-in-out;
         }
 
         #forgive-button:hover {
             transform: scale(1.1);
-            box-shadow: 0 8px 15px rgba(255, 97, 111, 0.8);
         }
 
+        #forgive-button:focus {
+            outline: none;
+        }
     </style>
 </head>
 
 <body>
-
-    <div id="envelope">
-        <img src="https://i.imgur.com/LjzIMvH.png" alt="Click me!" />
-        <p>Tap the envelope to open 💌</p>
+    <div class="envelope-container" onclick="openMessage()">
+        <div id="envelope"></div>
+        <div class="label">Klik amplop untuk buka 💌</div>
     </div>
-
     <div id="message-container">
-        <div id="hello-message" class="typed-text">Hallo Dedek Maniesss, kamu lagi kesal ya?</div>
         <div id="love-animation">❤️</div>
-        <div id="final-message">
-            Maafin aku ya kalau aku bikin kamu kesal. Aku bener-bener nggak ada niatan. Aku sangat menghargai kamu dan nggak mau kamu bete sama aku. Please forgive me Ya ❤️.
+        <div id="message-1" class="typed-text" style="--delay: 1s;">Hallo Dedek Maniesss...</div>
+        <div id="message-2" class="typed-text" style="--delay: 3s; display: none;">
+            Kamu lagi kesal ya? Ini aku beneran nggak sengaja kok. Maafin aku ya ❤️.
         </div>
-        <div class="flowers">
-            🌸 🌺 🌹
-        </div>
-        <button id="forgive-button" onclick="redirectToWhatsApp()">Yes, I Forgive You!</button>
+        <div id="flower-animation">🌸🌺🌹</div>
+        <button id="forgive-button" onclick="redirectToWhatsApp()">I Forgive You</button>
     </div>
 
     <script>
-        const envelope = document.getElementById('envelope');
-        const container = document.getElementById('message-container');
-        const helloMessage = document.getElementById('hello-message');
-        const loveAnimation = document.getElementById('love-animation');
-        const finalMessage = document.getElementById('final-message');
-        const flowers = document.querySelector('.flowers');
-        const forgiveButton = document.getElementById('forgive-button');
-
-        function revealMessage() {
-            envelope.style.display = 'none';
-            container.style.display = 'block';
-
+        // Envelope Click Functionality
+        function openMessage() {
+            document.querySelector('.envelope-container').style.display = 'none';
             setTimeout(() => {
-                loveAnimation.style.display = 'block';
-            }, 2000);
+                document.querySelector('#message-container').style.display = 'block';
+                document.getElementById('love-animation').style.display = 'block';
 
-            setTimeout(() => {
-                loveAnimation.style.display = 'none';
-                finalMessage.style.display = 'block';
-            }, 4000);
+                // Start timed animations
+                setTimeout(() => {
+                    document.getElementById('love-animation').style.display = 'none';
+                    document.getElementById('message-1').style.display = 'block';
+                }, 2000);
 
-            setTimeout(() => {
-                flowers.style.display = 'block';
-                forgiveButton.style.display = 'inline-block';
-            }, 6000);
+                setTimeout(() => {
+                    document.getElementById('message-1').style.display = 'none';
+                    document.getElementById('message-2').style.display = 'block';
+                    document.getElementById('flower-animation').style.display = 'block';
+                }, 4000);
+
+                setTimeout(() => {
+                    document.getElementById('forgive-button').style.display = 'inline-block';
+                }, 7000);
+            }, 500);
         }
 
-        envelope.addEventListener('click', revealMessage);
-
+        // Redirect to WhatsApp
         function redirectToWhatsApp() {
-            alert("Yay, thank you! You're the best! ❤️");
-            window.location.href = 'https://wa.me/1234567890'; // Replace with your WhatsApp number
+            window.location.href = 'https://wa.me/1234567890'; // Replace with actual WhatsApp number
         }
     </script>
-
 </body>
 
 </html>
