@@ -1,206 +1,305 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buat Dedek Maniess</title>
+    <title>buat dedek maniess</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Reset All */
+        :root {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --accent-color: #bb86fc;
+            --button-bg: #6200ea;
+            --button-hover-bg: #3700b3;
+            --flower-color: #f8bbd0;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body, html {
-            height: 100%;
-            background: radial-gradient(circle, #0f0f0f, #1a1a1a);
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
             font-family: 'Poppins', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100vh;
             overflow: hidden;
-            color: #fff;
-        }
-
-        /* Envelope Start */
-        .envelope-container {
             text-align: center;
-            animation: fadeIn 2s ease-in-out;
         }
 
-        #envelope {
-            width: 200px;
-            height: 120px;
-            background-color: #ff416c;
-            position: relative;
-            clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+        .container {
+            max-width: 90%;
+            padding: 20px;
+        }
+
+        /* --- Tahap 1: Amplop --- */
+        #initial-screen {
             cursor: pointer;
-            animation: pulse 2s infinite alternate;
-            transition: transform 0.3s;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
         }
-
-        #envelope:hover {
-            transform: scale(1.1);
+        #initial-screen.hidden {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
         }
-
-        /* Pulse Animation */
-        @keyframes pulse {
-            to {
-                box-shadow: 0px 4px 20px rgba(255, 65, 108, 0.6);
-            }
+        .envelope {
+            font-size: 100px;
+            animation: float 2s ease-in-out infinite;
         }
-
-        .label {
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .typing-text {
             margin-top: 20px;
             font-size: 1.2rem;
-            letter-spacing: 0.8px;
+            min-height: 50px; /* Ruang untuk teks */
+        }
+        /* Kursor ketik */
+        .typing-text span {
+            border-right: .15em solid var(--accent-color);
+            animation: blink-caret .75s step-end infinite;
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent-color); }
         }
 
-        /* The Love Animation */
-        #love-animation {
-            display: none;
-            margin-top: 30px;
-            font-size: 3rem;
-            animation: heartZoom 2s forwards;
-        }
 
-        @keyframes heartZoom {
-            0% {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(6);
-                opacity: 0;
-            }
+        /* --- Tahap 2: Pesan Utama --- */
+        #message-screen {
+            position: absolute;
+            opacity: 0;
+            transform: scale(1.2);
+            transition: opacity 0.7s ease-in, transform 0.7s ease-in;
+            pointer-events: none;
         }
-
-        /* Message Section */
-        #message-container {
-            margin-top: 40px;
-            display: none;
-            animation: fadeIn 1.5s ease-out;
-            text-align: center;
-        }
-
-        .typed-text {
-            font-size: 1.4rem;
-            font-weight: 500;
-            border-right: 2px solid #fff;
-            white-space: nowrap;
-            overflow: hidden;
-            width: 0;
-            animation: typing 4s steps(40, end), blink 0.8s infinite;
-        }
-
-        @keyframes typing {
-            to {
-                width: 100%;
-            }
-        }
-
-        @keyframes blink {
-            50% {
-                border-color: transparent;
-            }
-        }
-
-        /* Flower Animation */
-        #flower-animation {
-            display: none;
-            font-size: 2.2rem;
-            animation: riseUp 3s ease-out forwards;
-        }
-
-        @keyframes riseUp {
-            from {
-                transform: translateY(50%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0%);
-                opacity: 1;
-            }
-        }
-
-        /* Button */
-        #forgive-button {
-            margin-top: 30px;
-            display: none;
-            padding: 12px 25px;
-            font-size: 1rem;
-            border-radius: 25px;
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-            color: white;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0px 4px 10px rgba(255, 65, 108, 0.4);
+        #message-screen.visible {
+            opacity: 1;
             transform: scale(1);
-            transition: transform 0.3s ease-in-out;
+            pointer-events: all;
         }
 
-        #forgive-button:hover {
-            transform: scale(1.1);
+        .heart-zoom {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            font-size: 1px;
+            transform: translate(-50%, -50%);
+            animation: zoom-in-out 1.5s ease-in-out forwards;
+            opacity: 0;
+        }
+        @keyframes zoom-in-out {
+            0% { font-size: 1px; opacity: 0.5; }
+            50% { font-size: 200px; opacity: 1; }
+            100% { font-size: 1px; opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
         }
 
-        #forgive-button:focus {
-            outline: none;
+        .main-message p {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
         }
+
+        /* --- Animasi Bunga --- */
+        .flower-container {
+            position: fixed;
+            bottom: -100px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            pointer-events: none;
+        }
+        .flower {
+            position: absolute;
+            bottom: 0;
+            font-size: 2rem;
+            opacity: 0;
+            animation: rise 5s linear forwards;
+        }
+        @keyframes rise {
+            to {
+                bottom: 100vh;
+                opacity: 1;
+                transform: rotate(360deg);
+            }
+        }
+
+        /* --- Tombol --- */
+        .action-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            background-color: var(--button-bg);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.2s;
+            opacity: 0;
+            animation: fade-in 1s ease-in forwards;
+            animation-delay: 1s; /* Muncul setelah animasi ketik selesai */
+        }
+        .action-button:hover {
+            background-color: var(--button-hover-bg);
+            transform: scale(1.05);
+        }
+
+        /* --- Tahap 3: Final --- */
+        #final-screen {
+            position: absolute;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+            pointer-events: none;
+        }
+        #final-screen.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+        #final-screen h1 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+        }
+        #final-screen p {
+            margin-top: 10px;
+            font-size: 1.2rem;
+        }
+        #final-screen a {
+            background-color: #25D366; /* Warna WhatsApp */
+        }
+        #final-screen a:hover {
+            background-color: #128C7E;
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
     </style>
 </head>
-
 <body>
-    <div class="envelope-container" onclick="openMessage()">
-        <div id="envelope"></div>
-        <div class="label">Klik amplop untuk buka 💌</div>
+
+    <div id="flower-container"></div>
+
+    <div id="initial-screen" class="container" onclick="startSequence()">
+        <div class="envelope">💌</div>
+        <div class="typing-text" id="intro-text"></div>
     </div>
-    <div id="message-container">
-        <div id="love-animation">❤️</div>
-        <div id="message-1" class="typed-text" style="--delay: 1s;">Hallo Dedek Maniesss...</div>
-        <div id="message-2" class="typed-text" style="--delay: 3s; display: none;">
-            Kamu lagi kesal ya? Ini aku beneran nggak sengaja kok. Maafin aku ya ❤️.
+
+    <div id="message-screen" class="container">
+        <div class="heart-zoom">❤️</div>
+        <div class="main-message">
+            <p id="apology-text"></p>
         </div>
-        <div id="flower-animation">🌸🌺🌹</div>
-        <button id="forgive-button" onclick="redirectToWhatsApp()">I Forgive You</button>
+        <button id="forgive-button" class="action-button" style="opacity:0; pointer-events:none;" onclick="showFinalScreen()">Yes, I forgive you</button>
+    </div>
+
+    <div id="final-screen" class="container">
+        <h1>Yay, thank you! ❤️</h1>
+        <p>You're the best!</p>
+        <a href="https://wa.me/[+6281213207064]?text=Okeey, dimaafin nih.. lain kali jangan gitu lagi yaaa" class="action-button" target="_blank">Jangan lupa chat WhatsApp aku</a>
     </div>
 
     <script>
-        // Envelope Click Functionality
-        function openMessage() {
-            document.querySelector('.envelope-container').style.display = 'none';
+        const initialScreen = document.getElementById('initial-screen');
+        const messageScreen = document.getElementById('message-screen');
+        const finalScreen = document.getElementById('final-screen');
+        const forgiveButton = document.getElementById('forgive-button');
+
+        const introText = "Hallo Dedek Maniesss, kamu lagi kesal ya? Aku ada surat buat kamu nih, klik amplopnya ya...";
+        const apologyText = "Maafin aku ya kalau aku bikin kamu kesal. Aku bener-bener nggak ada niatan. Aku sangat menghargai kamu dan nggak mau kamu bete sama aku. Please forgive me ya ❤️.";
+        
+        let hasStarted = false;
+
+        // Fungsi Animasi Ketik
+        function typeWriter(text, elementId, speed, onComplete) {
+            let i = 0;
+            const targetElement = document.getElementById(elementId);
+            targetElement.innerHTML = '<span></span>'; // Reset dengan kursor
+            const cursor = targetElement.querySelector('span');
+            
+            function type() {
+                if (i < text.length) {
+                    cursor.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    if (onComplete) onComplete();
+                }
+            }
+            type();
+        }
+
+        // Tampilkan teks awal saat halaman dimuat
+        window.onload = () => {
+             typeWriter(introText, 'intro-text', 70);
+        };
+
+        // Mulai Rangkaian Animasi
+        function startSequence() {
+            if (hasStarted) return;
+            hasStarted = true;
+
+            initialScreen.classList.add('hidden');
+
             setTimeout(() => {
-                document.querySelector('#message-container').style.display = 'block';
-                document.getElementById('love-animation').style.display = 'block';
+                initialScreen.style.display = 'none';
+                messageScreen.classList.add('visible');
 
-                // Start timed animations
+                // Efek zoom hati setelah layar pesan muncul
                 setTimeout(() => {
-                    document.getElementById('love-animation').style.display = 'none';
-                    document.getElementById('message-1').style.display = 'block';
-                }, 2000);
+                    createFlowers(); // Mulai munculin bunga
+                    typeWriter(apologyText, 'apology-text', 80, () => {
+                        // Tampilkan tombol setelah teks selesai
+                        forgiveButton.style.opacity = '1';
+                        forgiveButton.style.pointerEvents = 'all';
+                    });
+                }, 1500); // Tunggu animasi hati selesai
+            }, 500); // Tunggu animasi amplop menghilang
+        }
 
-                setTimeout(() => {
-                    document.getElementById('message-1').style.display = 'none';
-                    document.getElementById('message-2').style.display = 'block';
-                    document.getElementById('flower-animation').style.display = 'block';
-                }, 4000);
-
-                setTimeout(() => {
-                    document.getElementById('forgive-button').style.display = 'inline-block';
-                }, 7000);
+        // Tampilkan Layar Terakhir
+        function showFinalScreen() {
+            messageScreen.classList.remove('visible');
+            setTimeout(() => {
+                messageScreen.style.display = 'none';
+                finalScreen.classList.add('visible');
             }, 500);
         }
 
-        // Redirect to WhatsApp
-        function redirectToWhatsApp() {
-            window.location.href = 'https://wa.me/1234567890'; // Replace with actual WhatsApp number
+        // Fungsi untuk membuat bunga berjatuhan
+        function createFlowers() {
+            const container = document.getElementById('flower-container');
+            const flowers = ['🌸', '🌺', '🌷', '🌼', '🌻'];
+            setInterval(() => {
+                const flower = document.createElement('div');
+                flower.classList.add('flower');
+                flower.innerText = flowers[Math.floor(Math.random() * flowers.length)];
+                flower.style.left = `${Math.random() * 100}vw`;
+                flower.style.animationDuration = `${Math.random() * 3 + 4}s`; // durasi antara 4-7 detik
+                flower.style.fontSize = `${Math.random() * 1.5 + 1}rem`; // ukuran antara 1-2.5 rem
+                container.appendChild(flower);
+
+                setTimeout(() => {
+                    flower.remove();
+                }, 7000); // Hapus bunga setelah 7 detik
+            }, 300); // Buat bunga baru setiap 300ms
         }
     </script>
 </body>
-
 </html>
