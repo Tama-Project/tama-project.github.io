@@ -1,1 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm Sorry ❤️</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body, html {
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb);
+            background-size: 400% 400%;
+            animation: gradient-shift 10s infinite;
+        }
+
+        /* Smooth Background Animation */
+        @keyframes gradient-shift {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 600px;
+            color: #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+
+        /* Header Styling */
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Apology Message */
+        p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Interactive Button */
+        .forgive-button {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #ffffff;
+            border: none;
+            border-radius: 25px;
+            background: #ff6f61;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .forgive-button:hover {
+            background: #ff8563;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .forgive-button:active {
+            transform: scale(0.95);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Falling Hearts Animation */
+        .heart {
+            position: fixed;
+            color: #FF6F61;
+            animation: floatDown 5s infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes floatDown {
+            0% {
+                transform: translateY(-100vh) scale(1);
+                opacity: 1;
+            }
+            90% {
+                transform: translateY(100vh) scale(0.9);
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>I'm Sorry ❤️</h1>
+        <p>Maafin aku ya kalau aku bikin kamu kesal. Aku bener-bener nggak ada niatan. Aku sangat menghargai kamu dan nggak mau ada jarak antara kita. Please forgive me ya ❤️.</p>
+        <button class="forgive-button" onclick="forgiveMe()">I Forgive You</button>
+        <footer>With love, [Your Name]</footer>
+    </div>
+
+    <!-- Falling Heart Elements -->
+    <div class="heart" style="left: 10%; animation-delay: 0s; font-size: 2rem;">❤️</div>
+    <div class="heart" style="left: 40%; animation-delay: 1s; font-size: 1.5rem;">❤️</div>
+    <div class="heart" style="left: 70%; animation-delay: 2s; font-size: 2.5rem;">❤️</div>
+    <div class="heart" style="left: 20%; animation-delay: 1.5s; font-size: 1.2rem;">❤️</div>
+    <div class="heart" style="left: 80%; animation-delay: 3s; font-size: 3rem;">❤️</div>
+
+    <script>
+        // Button Action
+        function forgiveMe() {
+            alert("Yay, thank you! You're the best! ❤️");
+        }
+    </script>
+</body>
+</html>
