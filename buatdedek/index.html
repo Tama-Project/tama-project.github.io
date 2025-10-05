@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>An Elegant Apology</title>
+    <title>Buat Dedek Maniess</title>
     <style>
-        /* General Reset */
+        /* Reset */
         * {
             margin: 0;
             padding: 0;
@@ -16,48 +16,105 @@
         body, html {
             height: 100%;
             font-family: 'Arial', sans-serif;
+            background: radial-gradient(circle, #000, #222);
             display: flex;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle at center, #000000, #1a1a1a);
+            color: #fff;
             overflow: hidden;
-            color: #ffffff;
         }
 
-        #container {
+        #envelope {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
             text-align: center;
-            border-radius: 15px;
-            background: rgba(25, 25, 25, 0.8);
-            width: 90%;
-            max-width: 500px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            transform: scale(0);
-            opacity: 0;
-            animation: fadeInScale 1.5s forwards 1.5s;
+            cursor: pointer;
+            animation: glow 1.5s infinite alternate;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: #ffcccc;
-            animation: pulse 2s infinite;
+        #envelope img {
+            width: 150px;
+            height: auto;
         }
 
-        p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            padding: 0 15px;
+        @keyframes glow {
+            0% {
+                filter: drop-shadow(0 0 10px #ff6f61);
+            }
+            100% {
+                filter: drop-shadow(0 0 20px #ff8563);
+            }
         }
 
-        #apology-message {
+        #message-container {
             display: none;
+            text-align: center;
+            width: 100%;
+            padding: 15px;
         }
 
-        #btn-open, #btn-forgive {
+        .typed-text {
+            display: inline-block;
+            white-space: nowrap;
+            border-right: 3px solid #fff;
+            overflow: hidden;
+            animation: typing 4s steps(30) forwards, blink 0.6s infinite step-end;
+            font-size: 1.5rem;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            50% { border-right: 3px solid transparent; }
+        }
+
+        #love-animation {
+            display: none;
+            animation: zoom-out 2s forwards;
+        }
+
+        @keyframes zoom-out {
+            from {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .flowers {
+            display: none;
+            animation: rise 4s ease-in forwards;
+        }
+
+        @keyframes rise {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        #final-message {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+
+        #forgive-button {
+            display: none;
+            margin-top: 20px;
             padding: 10px 20px;
-            margin: 10px auto;
             background: linear-gradient(45deg, #ff7faa, #ff616f);
             border: none;
             color: white;
@@ -68,97 +125,66 @@
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        #btn-open:hover, #btn-forgive:hover {
+        #forgive-button:hover {
             transform: scale(1.1);
             box-shadow: 0 8px 15px rgba(255, 97, 111, 0.8);
         }
 
-        footer {
-            margin-top: 10px;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-        }
-
-        /* Animation for Container */
-        @keyframes fadeInScale {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                text-shadow: 0 0 10px #ff9999, 0 0 20px #ff6666;
-            }
-            50% {
-                text-shadow: 0 0 20px #ffcccc, 0 0 30px #ffaaaa;
-            }
-        }
-
-        /* Floating flowers */
-        .flower {
-            position: fixed;
-            color: #ff7faa;
-            animation: fall 6s infinite, sway 3s infinite alternate;
-            font-size: 1.2rem;
-            opacity: 0.8;
-        }
-        @keyframes fall {
-            0% {
-                transform: translateY(-100vh) rotate(0deg);
-            }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-            }
-        }
-
-        @keyframes sway {
-            0% {
-                transform: translateX(-10px);
-            }
-            100% {
-                transform: translateX(10px);
-            }
-        }
     </style>
 </head>
 
 <body>
 
-    <div id="container">
-        <h1>For You ❤️</h1>
-        <p id="before-message">Hey, ada pesan buat kamu nih. Klik tombol di bawah untuk baca!</p>
-        <button id="btn-open" onclick="revealMessage()">Buka Pesan</button>
-
-        <div id="apology-message">
-            <p>Maaf banget ya, kalau aku bikin kamu kesal. Aku benar-benar nggak ada niatan.</p>
-            <p>Kamu berarti banget buat aku, dan rasanya nggak enak kalau kita ada jarak. Tolong maafin aku ya 🙏❤️.</p>
-            <button id="btn-forgive" onclick="thankYou()">Aku Maafin Kamu</button>
-        </div>
-
-        <footer>With love, [Dharma]</footer>
+    <div id="envelope">
+        <img src="https://i.imgur.com/LjzIMvH.png" alt="Click me!" />
+        <p>Tap the envelope to open 💌</p>
     </div>
 
-    <!-- Floating Flowers -->
-    <div class="flower" style="left: 15%; font-size: 1.8rem; animation-delay: 1s;">🌺</div>
-    <div class="flower" style="left: 40%; font-size: 1.4rem; animation-delay: 2s;">🌸</div>
-    <div class="flower" style="left: 70%; font-size: 2.2rem; animation-delay: 3s;">🌼</div>
+    <div id="message-container">
+        <div id="hello-message" class="typed-text">Hallo Dedek Maniesss, kamu lagi kesal ya?</div>
+        <div id="love-animation">❤️</div>
+        <div id="final-message">
+            Maafin aku ya kalau aku bikin kamu kesal. Aku bener-bener nggak ada niatan. Aku sangat menghargai kamu dan nggak mau kamu bete sama aku. Please forgive me Ya ❤️.
+        </div>
+        <div class="flowers">
+            🌸 🌺 🌹
+        </div>
+        <button id="forgive-button" onclick="redirectToWhatsApp()">Yes, I Forgive You!</button>
+    </div>
 
     <script>
+        const envelope = document.getElementById('envelope');
+        const container = document.getElementById('message-container');
+        const helloMessage = document.getElementById('hello-message');
+        const loveAnimation = document.getElementById('love-animation');
+        const finalMessage = document.getElementById('final-message');
+        const flowers = document.querySelector('.flowers');
+        const forgiveButton = document.getElementById('forgive-button');
+
         function revealMessage() {
-            document.getElementById('before-message').style.display = 'none';
-            document.getElementById('btn-open').style.display = 'none';
-            document.getElementById('apology-message').style.display = 'block';
+            envelope.style.display = 'none';
+            container.style.display = 'block';
+
+            setTimeout(() => {
+                loveAnimation.style.display = 'block';
+            }, 2000);
+
+            setTimeout(() => {
+                loveAnimation.style.display = 'none';
+                finalMessage.style.display = 'block';
+            }, 4000);
+
+            setTimeout(() => {
+                flowers.style.display = 'block';
+                forgiveButton.style.display = 'inline-block';
+            }, 6000);
         }
 
-        function thankYou() {
-            alert("Makasih banget ya! Kamu emang terbaik ❤️");
+        envelope.addEventListener('click', revealMessage);
+
+        function redirectToWhatsApp() {
+            alert("Yay, thank you! You're the best! ❤️");
+            window.location.href = 'https://wa.me/1234567890'; // Replace with your WhatsApp number
         }
     </script>
 
